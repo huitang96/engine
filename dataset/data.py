@@ -81,7 +81,7 @@ class load_mydata(Dataset):
         label = np.array(label).astype(np.int64)
         label = torch.from_numpy(label) # str-label -> tensor-label
         return img, label
-
+'''
 cfg = config2cfg()
 data = load_mydata(img_path=os.path.join(cfg['dataroot'], 'train'), transform=transforms.Compose([transforms.Resize([224, 224]),
                                                                               transforms.ToTensor()])) # trainsforms.Compose([ , ])
@@ -92,6 +92,8 @@ for num, img in enumerate(data_loader, 0):
     plt.imshow(img.permute(1, 2, 0))
     plt.show()
     # print(num)
+'''
+
 
 
 if __name__=='__main__':
