@@ -36,7 +36,8 @@ class AlexNet(nn.Module):
         x = self.avgpool(x)
         x = torch.flatten(x, 1)
         x = self.classifier(x)
-        return x
+        out = torch.softmax(x, dim=1)
+        return out
 
 if __name__=='__main__':
     input = torch.randn([2, 3, 224, 224])

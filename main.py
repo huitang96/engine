@@ -18,7 +18,7 @@ def data_process():
     check.check_format()
     make_txt_multiclass()
     transform = transforms.Compose([transforms.Resize([224, 224]),
-                                     transforms.ToTensor()])
+                                    transforms.ToTensor()])
     cfg = config2cfg()
     data_train = load_mydata(img_path=os.path.join(cfg['dataroot'], 'train'), transform=transform)
     data_loader_train = DataLoader(data_train, num_workers=0, batch_size=2, shuffle=True)
@@ -37,7 +37,7 @@ def train():
         loss_train.backward()
         model.optimizer.step()  # 梯度更新
         loss_sum_train += loss_train
-    print("epoch:", epoch, "train_loss:", loss_sum_train / step)
+    # print("epoch:", epoch, "train_loss:", loss_sum_train / step)
 
 def val():
     model.eval()
@@ -48,7 +48,7 @@ def val():
             prediction = model(feature)
             loss_val = model.loss_func(prediction, label)
             loss_sum_val += loss_val
-        print("epoch:", epoch, "val_loss:", loss_sum_val / step)
+        print("epoch:", epoch, "val_loss:", '{:.3f}'.format((loss_sum_val).cpu().detach().numpy() / step))
 
 if __name__=='__main__':
     data_loader_train, data_loader_val = data_process()
@@ -58,10 +58,12 @@ if __name__=='__main__':
     model.optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
     model.loss_func = torch.nn.CrossEntropyLoss()
     model.train()
-    epochs = 100
+    epochs = 5
     for epoch in range(1, epochs+1):
         train()
         val()
+
+    torch.save(model, '/home/thui/projects/classification_proj/savefile/' + 'alexnet.pth')
 
 
 
