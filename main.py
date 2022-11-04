@@ -7,6 +7,7 @@ from dataset.data import check_data, make_txt_multiclass, load_mydata
 from network.alexnet import AlexNet
 from torch.optim import optimizer
 from matplotlib import pyplot as plt
+import numpy as np
 
 def data_process():
     readcfg = readconfig()
@@ -25,27 +26,45 @@ def data_process():
     data_loader_val = DataLoader(data_val, num_workers=0, batch_size=2, shuffle=True)
     return data_loader_train, data_loader_val
 
+def train():
+    loss_sum_train = 0.
+    # step = 1
+    for step, (feature, label) in enumerate(data_loader_train, 1):
+        feature, label = feature.to(device), label.to(device)
+        model.optimizer.zero_grad()
+        prediction = model(feature)
+        loss_train = model.loss_func(prediction, label)
+        loss_train.backward()
+        model.optimizer.step()  # 梯度更新
+        loss_sum_train += loss_train
+    print("epoch:", epoch, "train_loss:", loss_sum_train / step)
+
+def val():
+    model.eval()
+    loss_sum_val = 0.
+    with torch.no_grad():
+        for step, (feature, label) in enumerate(data_loader_val, 1):
+            feature, label = feature.to(device), label.to(device)
+            prediction = model(feature)
+            loss_val = model.loss_func(prediction, label)
+            loss_sum_val += loss_val
+        print("epoch:", epoch, "val_loss:", loss_sum_val / step)
+
 if __name__=='__main__':
     data_loader_train, data_loader_val = data_process()
     device = 'cuda:0' if torch.cuda.is_available() else 'cpu:0'
+    # device = 'cpu:0'
     model = AlexNet(num_classes = 2).to(device)
     model.optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
     model.loss_func = torch.nn.CrossEntropyLoss()
     model.train()
-    epochs = 50
-    loss_sum = 0.
+    epochs = 100
     for epoch in range(1, epochs+1):
-        for step, (feature, label) in enumerate(data_loader_train, 1):
-            # feature, label = feature.to(device), label.to(device)
-            model.optimizer.zero_grad()
-            prediction = model(feature)
-            loss = model.loss_func(prediction, label)
-            loss.backward()
-            model.optimizer.step() # 梯度更新
+        train()
+        val()
 
-            loss_sum += loss
-            if step == 5:
-                print("epoch:", epoch, "loss:", loss_sum/step)
+
+
 
 
 

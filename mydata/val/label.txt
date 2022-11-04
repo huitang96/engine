@@ -1,7 +1,7 @@
-/home/thui/projects/classification_proj/mydata/val/mask/2.jpg 22
-/home/thui/projects/classification_proj/mydata/val/mask/4.jpg 23
-/home/thui/projects/classification_proj/mydata/val/mask/3.jpg 24
-/home/thui/projects/classification_proj/mydata/val/mask/1.jpg 25
-/home/thui/projects/classification_proj/mydata/val/nomask/2.jpg 26
-/home/thui/projects/classification_proj/mydata/val/nomask/3.jpg 27
-/home/thui/projects/classification_proj/mydata/val/nomask/1.jpg 28
+/home/thui/projects/classification_proj/mydata/val/mask/2.jpg 0
+/home/thui/projects/classification_proj/mydata/val/mask/4.jpg 0
+/home/thui/projects/classification_proj/mydata/val/mask/3.jpg 0
+/home/thui/projects/classification_proj/mydata/val/mask/1.jpg 0
+/home/thui/projects/classification_proj/mydata/val/nomask/2.jpg 1
+/home/thui/projects/classification_proj/mydata/val/nomask/3.jpg 1
+/home/thui/projects/classification_proj/mydata/val/nomask/1.jpg 1

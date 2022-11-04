@@ -32,22 +32,22 @@ class check_data():
 generated the txt label file 
 '''
 def make_txt_multiclass():
-    num_label = 0
     cfg = config2cfg()
     path = cfg['dataroot'] # '/workspace/mydata/'
 
     for mode in os.listdir(path): # train or val file
         if os.path.exists(os.path.join(path, mode, 'label.txt')):
+            # raise RuntimeError('delect the history label file!')
             os.remove(os.path.join(path, mode, 'label.txt'))  # delect the history file
 
     for mode in os.listdir(path): # train or val file
-            # raise RuntimeError('delect the history label file!')
+        num_label = 0
         for class_name in os.listdir(os.path.join(path, mode)):  # mask or nomask
             for line in os.listdir(os.path.join(path, mode, class_name)): # the image name of mask file or nomask file
                 f = open(os.path.join(path, mode, "label.txt"), 'a')  # create the label file 'w':cover,'a':add
                 f.write(path + '/' + mode + '/' + class_name + '/' + line + ' ' + str(num_label) + '\n')
-                num_label += 1
                 f.close()
+            num_label += 1
     print('label file make success!')
 
 '''
